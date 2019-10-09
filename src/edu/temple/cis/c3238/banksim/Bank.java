@@ -13,6 +13,8 @@ public class Bank {
     private long ntransacts = 0;
     private final int initialBalance;
     private final int numAccounts;
+    
+    private boolean isOpen;
 
     public Bank(int numAccounts, int initialBalance) {
         this.initialBalance = initialBalance;
@@ -22,14 +24,17 @@ public class Bank {
             accounts[i] = new Account(this, i, initialBalance);
         }
         ntransacts = 0;
+        
+        this.isOpen = true;
     }
 
     public void transfer(int from, int to, int amount) {
 //        accounts[from].waitForAvailableFunds(amount);
+        if (!this.isOpen)
+            return;
         if (accounts[from].withdraw(amount)) {
             accounts[to].deposit(amount);
         }
-        if (shouldTest()) test();
     }
 
     public void test() {
@@ -56,8 +61,22 @@ public class Bank {
     }
     
     
-    public boolean shouldTest() {
+    public synchronized boolean shouldTest() {
         return ++ntransacts % NTEST == 0;
     }
+    
+    public synchronized boolean isBankOpen() {
+        return this.isOpen;
+    }
 
+    public void closeBank() {
+        synchronized (this) {
+            this.isOpen = false;
+        }
+        
+        for (Account acc : this.accounts)
+            synchronized (acc) {
+                acc.notifyAll();
+            }
+    }
 }

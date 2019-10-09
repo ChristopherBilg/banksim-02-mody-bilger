@@ -24,7 +24,7 @@ public class Bank {
         ntransacts = 0;
     }
 
-    public synchronized void transfer(int from, int to, int amount) {
+    public void transfer(int from, int to, int amount) {
 //        accounts[from].waitForAvailableFunds(amount);
         if (accounts[from].withdraw(amount)) {
             accounts[to].deposit(amount);

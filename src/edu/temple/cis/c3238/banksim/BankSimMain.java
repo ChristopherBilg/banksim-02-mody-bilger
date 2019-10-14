@@ -23,7 +23,7 @@ public class BankSimMain {
         testingThread.start();
         for (int i = 0; i < NACCOUNTS; i++) {
             threads[i] = new TransferThread(
-                    bank, i, INITIAL_BALANCE, sema, 1000);
+                    bank, i, INITIAL_BALANCE, sema, 100);
             threads[i].start();
         }
 

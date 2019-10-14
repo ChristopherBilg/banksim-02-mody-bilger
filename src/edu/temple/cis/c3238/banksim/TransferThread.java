@@ -51,6 +51,5 @@ class TransferThread extends Thread {
 
         // Close the whole bank when one transferring thread is finished
         // This is needed in a later task
-        this.bank.closeBank();
     }
 }

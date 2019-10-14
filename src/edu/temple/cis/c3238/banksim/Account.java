@@ -45,9 +45,16 @@ public class Account {
     }
     
     public synchronized void waitForAvailableFunds(int amount) {
-        while (myBank.isBankOpen() && amount >= balance) {
+        while (myBank.isBankOpen() && amount > balance) {
             try {
                 wait();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        while (myBank.isBankOpen() && amount <= balance) {
+            try {
+                notify();
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -69,14 +69,5 @@ public class Bank {
         return this.isOpen;
     }
 
-    public void closeBank() {
-        synchronized (this) {
-            this.isOpen = false;
-        }
-        
-        for (Account acc : this.accounts)
-            synchronized (acc) {
-                acc.notifyAll();
-            }
-    }
+
 }

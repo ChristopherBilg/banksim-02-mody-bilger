@@ -9,7 +9,7 @@ package edu.temple.cis.c3238.banksim;
 public class Bank {
 
     public static final int NTEST = 10;
-    private final Account[] accounts;
+    public final Account[] accounts;
     private long ntransacts = 0;
     private final int initialBalance;
     private final int numAccounts;
